@@ -54,12 +54,21 @@ categories:
   - 选择 Select Activity overview 模式，滚动就正常了
     ![image](https://user-images.githubusercontent.com/35559153/230754120-e5687f95-b3f7-48ca-aa2b-94601e2dac31.png)
 
-## 其他
+## 原理
 
+git 的每次提交有两个时间，分别为 AuthorDate 和 CommitDate ，在一些情况下他们是不一致的，比如使用 git cherry-pick 或者 git commit --amend 后, 再使用 git log --pretty=fuller 可以查看每次提交 AuthorDate 和 CommitDate 的区别。
+
+![image](https://user-images.githubusercontent.com/35559153/230784864-b6db0d2d-74f3-43ee-8275-725a2ce7d16b.png)
+
+你可以每次提交手动设置提交时间，如
+```bash
+git commit -m 'add something' --date 1970-01-01T08:00:00
+```
+通过修改提交时间还可以进行其他有趣的玩法，比如下面两个
 ### 生成随机贡献 https://github.com/Shpota/github-activity-generator
 ![image](https://user-images.githubusercontent.com/35559153/230758005-29ee8376-ea3c-4d75-b73b-ec419ab3946a.png)
 
-### 自己设置未来炫酷的贡献 https://github.com/empdo?tab=overview&from=2034-12-01/
+### 自己设置未来炫酷的贡献 https://github.com/empdo/art
 ![image](https://user-images.githubusercontent.com/35559153/230758057-c0d8e862-1bca-4503-bee3-61f63fe69776.png)
 
 
