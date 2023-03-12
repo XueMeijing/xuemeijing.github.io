@@ -1,5 +1,5 @@
 ---
-title: 创建python版本的钉钉机器人
+title: 创建python版本的chatGPT钉钉机器人
 date: 2023-03-12 16:19:03
 categories: 
 - 有趣
