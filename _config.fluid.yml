@@ -1,0 +1,7 @@
+navbar:
+  blog_title: 南风
+index:
+  slogan:
+    enable: true
+    text: 
+    api:
