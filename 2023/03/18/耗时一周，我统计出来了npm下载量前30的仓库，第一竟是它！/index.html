@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xue Meijing">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="作为一个前端开发人员，我们每天都在使用npm，但是你曾经是否和我一样好奇，下载量最大的包是哪个？每天下载多少次？他们的github star是多少？上周我偶然看到了一个库 glob， 每周竟然下载8000万次，与此同时，react只有1500万次，glob是最高的吗，第一又是谁呢？ 统计结果展示耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！supports-color！总下载量 26">
+<meta property="og:type" content="article">
+<meta property="og:title" content="耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！">
+<meta property="og:url" content="https://xuemeijing.github.io/2023/03/18/%E8%80%97%E6%97%B6%E4%B8%80%E5%91%A8%EF%BC%8C%E6%88%91%E7%BB%9F%E8%AE%A1%E5%87%BA%E6%9D%A5%E4%BA%86npm%E4%B8%8B%E8%BD%BD%E9%87%8F%E5%89%8D30%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E7%AC%AC%E4%B8%80%E7%AB%9F%E6%98%AF%E5%AE%83%EF%BC%81/index.html">
+<meta property="og:site_name" content="南风">
+<meta property="og:description" content="作为一个前端开发人员，我们每天都在使用npm，但是你曾经是否和我一样好奇，下载量最大的包是哪个？每天下载多少次？他们的github star是多少？上周我偶然看到了一个库 glob， 每周竟然下载8000万次，与此同时，react只有1500万次，glob是最高的吗，第一又是谁呢？ 统计结果展示耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！supports-color！总下载量 26">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226155971-98090186-88e2-4e45-a483-c66c4409e693.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226156027-c2c17c56-f661-41d2-969c-699cf17441d7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226098795-aa0de0d3-bbbd-4357-ba5c-acf319b022e5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226098836-f9629ddc-85f1-44f9-8410-79b6b8a4a0e2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226099349-3b354dbe-c606-40f3-8338-59f4377235e0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226099040-113c03f4-eb54-415a-950c-859070afc99d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226099169-c1f835e6-8fc6-4635-a426-d2a9725b2e5e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226100591-6d6fce11-077f-405c-8ca9-9b415f6eeb96.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226099718-5328c7de-d60e-4b83-ba57-348106bc99e0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226101055-90ffb9e0-65df-4395-b2b0-17359b1ef1a1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226102072-71e4b038-c492-4775-a8f8-768a70d9865d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226102110-a6c1477a-9023-44c7-93d5-e22615c26f3c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226156536-7d15446d-13cd-4a25-b166-ff74d4716357.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/35559153/226156582-af006bf7-d0df-454e-bce9-8cafdc6052be.png">
+<meta property="article:published_time" content="2023-03-18T16:19:03.000Z">
+<meta property="article:modified_time" content="2023-03-19T06:18:13.773Z">
+<meta property="article:author" content="Xue Meijing">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/35559153/226155971-98090186-88e2-4e45-a483-c66c4409e693.png">
+  
+  
+  
+  <title>耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！ - 南风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xuemeijing.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>南风</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-18 16:19" pubdate>
+          2023年3月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>作为一个前端开发人员，我们每天都在使用npm，但是你曾经是否和我一样好奇，下载量最大的包是哪个？每天下载多少次？他们的github star是多少？上周我偶然看到了一个库 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/glob">glob</a>， 每周竟然下载8000万次，与此同时，react只有1500万次，glob是最高的吗，第一又是谁呢？</p>
+<h1 id="统计结果展示"><a href="#统计结果展示" class="headerlink" title="统计结果展示"></a>统计结果展示</h1><p>耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！supports-color！总下载量 26,108,633,482 次，但 github star 竟然只有 319 个。另外，我做了一个网站，统计了最近一周、最近一月、最近一年、总下载量等各个维度的图表，还没有做优化加载可能有点慢，网站地址 <a target="_blank" rel="noopener" href="https://www.npmrank.net/">https://www.npmrank.net/</a></p>
+<p>无图无真相，下面是网站截图<br><img src="https://user-images.githubusercontent.com/35559153/226155971-98090186-88e2-4e45-a483-c66c4409e693.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/35559153/226156027-c2c17c56-f661-41d2-969c-699cf17441d7.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h1 id="分析npm官网接口，获取某个包的下载量"><a href="#分析npm官网接口，获取某个包的下载量" class="headerlink" title="分析npm官网接口，获取某个包的下载量"></a>分析npm官网接口，获取某个包的下载量</h1><p>打开浏览器控制台分析npm接口发现，同一个地址，比如 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/lodash">https://www.npmjs.com/package/lodash</a> ， 从npm首页 Popular libraries 中推荐的库点进去，接口返回的是JSON格式的数据，而从地址栏输入链接进去，返回是服务端渲染好的html。多次控制变量法未能定位是哪个header的原因，我就先不管了（当然不是睡大觉）</p>
+<ol>
+<li>找到返回JSON的接口，copy -&gt; copy as fetch<br><img src="https://user-images.githubusercontent.com/35559153/226098795-aa0de0d3-bbbd-4357-ba5c-acf319b022e5.png" srcset="/img/loading.gif" lazyload alt="image"></li>
+<li>粘贴到console<br><img src="https://user-images.githubusercontent.com/35559153/226098836-f9629ddc-85f1-44f9-8410-79b6b8a4a0e2.png" srcset="/img/loading.gif" lazyload alt="image"></li>
+<li>复制header到postman，同时看到有下载量数据<br><img src="https://user-images.githubusercontent.com/35559153/226099349-3b354dbe-c606-40f3-8338-59f4377235e0.png" srcset="/img/loading.gif" lazyload alt="image"></li>
+<li>打开postman右侧的代码块，找到python代码<br><img src="https://user-images.githubusercontent.com/35559153/226099040-113c03f4-eb54-415a-950c-859070afc99d.png" srcset="/img/loading.gif" lazyload alt="image"></li>
+<li>复制到test.py，去掉某些空的header<br><img src="https://user-images.githubusercontent.com/35559153/226099169-c1f835e6-8fc6-4635-a426-d2a9725b2e5e.png" srcset="/img/loading.gif" lazyload alt="image"></li>
+</ol>
+<p>OK，这样获取某一个仓库的接口就完成了，通过这个接口我们可以拿到github地址，仓库版本，最近一年每周的下载量等</p>
+<h1 id="根据npm官方api，获取不同时间段的下载量"><a href="#根据npm官方api，获取不同时间段的下载量" class="headerlink" title="根据npm官方api，获取不同时间段的下载量"></a>根据npm官方api，获取不同时间段的下载量</h1><p>上面官网的接口只是最近一年各周的下载量，有没有其他时间段的呢，找了一圈后发现npm官网提供了这样的接口，<a target="_blank" rel="noopener" href="https://github.com/npm/registry/blob/master/docs/download-counts.md">官方api文档</a> ，<br><img src="https://user-images.githubusercontent.com/35559153/226100591-6d6fce11-077f-405c-8ca9-9b415f6eeb96.png" srcset="/img/loading.gif" lazyload alt="image"><br>通过上面提供的接口，我们可以获取上周、上月、任何一个时间段的下载量，但是需要注意的是，官方api每次最多返回18个月的数据，最早是2015-01-10号的数据，所以统计总下载量时要分段获取每年的下载量后再累加，如果你想统计自己的包被安装了多少次，也是可以滴，接下来就是获取很多包名，循环下载后统计了</p>
+<h1 id="获取19年的排行"><a href="#获取19年的排行" class="headerlink" title="获取19年的排行"></a>获取19年的排行</h1><p>我在网上搜了一下npm downlaod rank，发现只有 <a target="_blank" rel="noopener" href="https://gist.github.com/anvaka/8e8fa57c7ee1350e3491">anvaka</a> 19年做的统计符合想要的结果，他下载了npm全部的包并做了各种维度的分析，这个md是他统计的 top 1000依赖的包，不过被依赖的越多下载量越大，误差应该不会很大<br><img src="https://user-images.githubusercontent.com/35559153/226099718-5328c7de-d60e-4b83-ba57-348106bc99e0.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<ol>
+<li><p>保存文件到本地 SOURCE_FILE</p>
+</li>
+<li><p>获取包名和仓库地址并存到sqlite数据库</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">从md中拿到库名并存到数据库</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(SOURCE_FILE, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>  lines = f.readlines()<br>  <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> lines:<br>    name = re.findall(<span class="hljs-string">r&#x27;\[(.*?)\]&#x27;</span>, line)<br>    href = re.findall(<span class="hljs-string">r&#x27;\((.*?)\)&#x27;</span>, line)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;line\n&#x27;</span>, line)<br>    <span class="hljs-keyword">if</span> name <span class="hljs-keyword">and</span> href:<br>      get_pkgbase_query = <span class="hljs-string">&#x27;&#x27;&#x27;SELECT * FROM pkgbase WHERE id = ?&#x27;&#x27;&#x27;</span><br>      record_base = sql_obj.get(get_pkgbase_query, (name[<span class="hljs-number">0</span>],), one=<span class="hljs-literal">True</span>)<br>      <span class="hljs-keyword">if</span> record_base <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        insert_data_query = <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                            INSERT INTO pkgbase</span><br><span class="hljs-string">                            (&#x27;id&#x27;, &#x27;npm_url&#x27;, &#x27;github_url&#x27;, &#x27;homepage_url&#x27;, &#x27;version&#x27;, &#x27;license&#x27;, &#x27;github_star&#x27;, &#x27;size&#x27;, created, updated)</span><br><span class="hljs-string">                            VALUES(?,?,?,?,?,?,?,?,?,?)</span><br><span class="hljs-string">                            &#x27;&#x27;&#x27;</span><br>        sql_obj.update(insert_data_query, (name[<span class="hljs-number">0</span>], NPM_BASE_URL + name[<span class="hljs-number">0</span>], <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br></code></pre></td></tr></table></figure>
+<p> <img src="https://user-images.githubusercontent.com/35559153/226101055-90ffb9e0-65df-4395-b2b0-17359b1ef1a1.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+</li>
+<li><p>循环请求存储基本数据</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">更新下载量</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>  all_data_query = <span class="hljs-string">&#x27;&#x27;&#x27;SELECT * FROM pkgbase&#x27;&#x27;&#x27;</span><br>  records = sql_obj.get(all_data_query)<br>  <span class="hljs-keyword">for</span> index, record <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(records):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>      <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;id&#x27;</span>, record[<span class="hljs-string">&#x27;id&#x27;</span>], index)<br>      <span class="hljs-keyword">try</span>:<br>        <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">        获取下载量并写入数据库</span><br><span class="hljs-string">        &#x27;&#x27;&#x27;</span><br>        href = NPM_BASE_URL + record[<span class="hljs-string">&#x27;id&#x27;</span>]<br>        npm_response = requests.request(<span class="hljs-string">&quot;GET&quot;</span>, href, headers=npm_headers)<br>        npm_data = npm_response.json()<br><br>        <span class="hljs-comment"># pkgbase</span><br>        github_url = npm_data[<span class="hljs-string">&#x27;packageVersion&#x27;</span>].get(<span class="hljs-string">&#x27;repository&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        homepage_url = npm_data[<span class="hljs-string">&#x27;packageVersion&#x27;</span>].get(<span class="hljs-string">&#x27;homepage&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        version = npm_data[<span class="hljs-string">&#x27;packument&#x27;</span>].get(<span class="hljs-string">&#x27;version&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        license = npm_data[<span class="hljs-string">&#x27;packument&#x27;</span>].get(<span class="hljs-string">&#x27;license&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        <span class="hljs-comment"># 有仓库两个license</span><br>        license = license <span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span>(license) == <span class="hljs-built_in">str</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;-&#x27;</span><br>        versions = npm_data[<span class="hljs-string">&#x27;packument&#x27;</span>].get(<span class="hljs-string">&#x27;versions&#x27;</span>) <span class="hljs-keyword">if</span> npm_data[<span class="hljs-string">&#x27;packument&#x27;</span>].get(<span class="hljs-string">&#x27;versions&#x27;</span>) <span class="hljs-keyword">else</span> []<br>        updated = datetime.datetime.fromtimestamp(versions[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;date&#x27;</span>][<span class="hljs-string">&#x27;ts&#x27;</span>] / <span class="hljs-number">1000</span>).strftime(<span class="hljs-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)<br>        created = datetime.datetime.fromtimestamp(versions[<span class="hljs-built_in">len</span>(versions) - <span class="hljs-number">1</span>][<span class="hljs-string">&#x27;date&#x27;</span>][<span class="hljs-string">&#x27;ts&#x27;</span>] / <span class="hljs-number">1000</span>).strftime(<span class="hljs-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)<br><br>        update_pkgbase_query =  <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                                UPDATE pkgbase</span><br><span class="hljs-string">                                SET github_url = ?, homepage_url = ?, version = ?, license = ?, updated = ?, created = ?</span><br><span class="hljs-string">                                WHERE id = ?</span><br><span class="hljs-string">                                &#x27;&#x27;&#x27;</span><br>        sql_obj.update(update_pkgbase_query, (github_url, homepage_url, version, license, updated, created, record[<span class="hljs-string">&#x27;id&#x27;</span>]))<br></code></pre></td></tr></table></figure></li>
+<li><p>更新各个时间段的下载量</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">获取某一时期的下载量</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_point_downloads</span>(<span class="hljs-params">date_range, package_name</span>):<br>  href = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;NPM_BASE_API_POINT_URL&#125;</span><span class="hljs-subst">&#123;date_range&#125;</span>/<span class="hljs-subst">&#123;package_name&#125;</span>&#x27;</span><br>  response = requests.request(<span class="hljs-string">&quot;GET&quot;</span>, href)<br>  data = response.json()<br>  <span class="hljs-keyword">return</span> data[<span class="hljs-string">&#x27;downloads&#x27;</span>]<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">获取全部下载量，npm每次最多返回18个月的数据，所以分段下载后再累加</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_point_all_downloads</span>(<span class="hljs-params">package_name</span>):<br>  start_time = <span class="hljs-number">2015</span><br>  end_time = datetime.datetime.now().year<br>  all_downloads = <span class="hljs-number">0</span><br><br>  <span class="hljs-keyword">for</span> year <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(start_time, end_time + <span class="hljs-number">1</span>):<br>    dltype = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;year&#125;</span>&#x27;</span><br>    date_range = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;year&#125;</span>-01-01:<span class="hljs-subst">&#123;year + <span class="hljs-number">1</span>&#125;</span>-01-01&#x27;</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;date_range&#x27;</span>, date_range)<br><br>    downloads = get_point_downloads(date_range, package_name)<br>    all_downloads += downloads<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;new downloads&#x27;</span>,downloads)<br>    add_data_query = <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                    INSERT INTO pkgdownload</span><br><span class="hljs-string">                    (&#x27;id&#x27;, &#x27;dltype&#x27;, &#x27;downloads&#x27;, &#x27;timepoint&#x27;)</span><br><span class="hljs-string">                    VALUES(?,?,?,?)</span><br><span class="hljs-string">                    &#x27;&#x27;&#x27;</span><br>    sql_obj.update(add_data_query, (package_name, dltype, downloads, datetime.datetime.now()))<br><span class="hljs-keyword">return</span> all_downloads<br><br>...<br><br><span class="hljs-comment"># pkgdownload</span><br>base_dltype = [<span class="hljs-string">&#x27;last-day&#x27;</span>, <span class="hljs-string">&#x27;last-week&#x27;</span>, <span class="hljs-string">&#x27;last-month&#x27;</span>, <span class="hljs-string">&#x27;last-year&#x27;</span>, <span class="hljs-string">&#x27;all-time&#x27;</span>]<br><span class="hljs-keyword">for</span> dltype <span class="hljs-keyword">in</span> base_dltype:<br>  <span class="hljs-keyword">if</span> dltype == <span class="hljs-string">&#x27;all-time&#x27;</span>:<br>    downloads = get_point_all_downloads(record[<span class="hljs-string">&#x27;id&#x27;</span>])<br>  <span class="hljs-keyword">else</span>:<br>    downloads = get_point_downloads(dltype, record[<span class="hljs-string">&#x27;id&#x27;</span>])<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;dltype&#x27;</span>, dltype)<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;downloads&#x27;</span>, downloads)<br>  replaced_dltype = re.sub(<span class="hljs-string">r&#x27;\-&#x27;</span>, <span class="hljs-string">&#x27;_&#x27;</span>, dltype)<br>  add_pkgdownload_query =  <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                            INSERT INTO pkgdownload</span><br><span class="hljs-string">                            (&#x27;id&#x27;, &#x27;dltype&#x27;, &#x27;downloads&#x27;, &#x27;timepoint&#x27;)</span><br><span class="hljs-string">                            VALUES(?,?,?,?)</span><br><span class="hljs-string">                            &#x27;&#x27;&#x27;</span><br>  sql_obj.update(add_pkgdownload_query, (record[<span class="hljs-string">&#x27;id&#x27;</span>], replaced_dltype, downloads, datetime.datetime.now()))<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="获取包的github数据"><a href="#获取包的github数据" class="headerlink" title="获取包的github数据"></a>获取包的github数据</h1><p>本来官网接口中返回的有ghapi字段，如 <a target="_blank" rel="noopener" href="https://api.github.com/repos/lodash/lodash">https://api.github.com/repos/lodash/lodash</a> ，里面有stargazers_count字段就是star数，但是该接口每小时限速60次，所以无奈只能用爬虫了，代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">set_github_info</span>(<span class="hljs-params">github_url, package_name</span>):<br>  response = requests.get(github_url, headers=github_headers)<br>  soup = BeautifulSoup(response.content, <span class="hljs-string">&quot;html.parser&quot;</span>)<br>  star = soup.find(<span class="hljs-string">&quot;span&quot;</span>, class_=<span class="hljs-string">&#x27;text-bold&#x27;</span>).get_text() <span class="hljs-keyword">if</span> soup.find(<span class="hljs-string">&quot;span&quot;</span>, class_=<span class="hljs-string">&#x27;text-bold&#x27;</span>) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span><br>  update_pkgbase_query =  <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                            UPDATE pkgbase</span><br><span class="hljs-string">                            SET github_star = ?</span><br><span class="hljs-string">                            WHERE id = ?</span><br><span class="hljs-string">                            &#x27;&#x27;&#x27;</span><br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;package_name star&#x27;</span>, package_name, star)<br>  sql_obj.update(update_pkgbase_query, (star, package_name))<br></code></pre></td></tr></table></figure>
+<p>第一次使用爬虫库 bs4 的 BeautifulSoup 模块，获取 github star 只有两行代码，也太方便了吧</p>
+<p>就在刚才发现npm也有接口会返回github star数，如 <a target="_blank" rel="noopener" href="https://api.github.com/repos/lodash/lodash/pulls?per_page=1">https://api.github.com/repos/lodash/lodash/pulls?per_page=1</a> 里的 stargazers_count ，等有时间我替换一下</p>
+<h1 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h1><p>经过上面一通操作，我们现在有了pkgbase、pkgdownload 这样两张表，内容如下<br><img src="https://user-images.githubusercontent.com/35559153/226102072-71e4b038-c492-4775-a8f8-768a70d9865d.png" srcset="/img/loading.gif" lazyload alt="image"><br><img src="https://user-images.githubusercontent.com/35559153/226102110-a6c1477a-9023-44c7-93d5-e22615c26f3c.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>接下来写两个接口，一个是返回下载量排名的的类型，过去一周，过去一年，总下载量等，供前端筛选，使用quart简单起个服务</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> quart <span class="hljs-keyword">import</span> Quart, request<br><span class="hljs-keyword">import</span> re<br><br><span class="hljs-keyword">from</span> db <span class="hljs-keyword">import</span> SQLDB<br><br>app = Quart(__name__)<br>sql_obj = SQLDB()<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">获取排名类型</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/api/ranking/types&#x27;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_types</span>():<br>  <span class="hljs-keyword">return</span> &#123;<br>    <span class="hljs-string">&#x27;code&#x27;</span>: <span class="hljs-number">200</span>,<br>    <span class="hljs-string">&#x27;data&#x27;</span>: get_rank_types(),<br>    <span class="hljs-string">&#x27;success&#x27;</span>: <span class="hljs-literal">True</span><br>  &#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_rank_types</span>():<br>  get_types_query = <span class="hljs-string">&#x27;SELECT DISTINCT dltype FROM pkgdownload&#x27;</span><br>  records = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(convert_type, sql_obj.get(get_types_query)))<br>  <br>  <span class="hljs-keyword">return</span> records<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">convert_type</span>(<span class="hljs-params">record</span>):<br>    dltype = re.sub(<span class="hljs-string">r&#x27;\_&#x27;</span>, <span class="hljs-string">&#x27;-&#x27;</span>, record[<span class="hljs-string">&#x27;dltype&#x27;</span>])<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-string">&#x27;label&#x27;</span>: dltype,<br>      <span class="hljs-string">&#x27;value&#x27;</span>: dltype<br>    &#125;<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(host=<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>, port=<span class="hljs-number">8080</span>)<br></code></pre></td></tr></table></figure>
+<p>根据排名类型，返回对应的排行数据<br><img src="https://user-images.githubusercontent.com/35559153/226156536-7d15446d-13cd-4a25-b166-ff74d4716357.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">获取包的数据</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/api/ranking/packages/&lt;path:rank_type&gt;&#x27;</span></span>)</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_packages</span>(<span class="hljs-params">rank_type</span>):<br>  top = request.args.get(<span class="hljs-string">&#x27;top&#x27;</span>)<br>  <span class="hljs-keyword">if</span> top <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    top = <span class="hljs-number">30</span><br>  <span class="hljs-keyword">elif</span> <span class="hljs-built_in">int</span>(top) &gt; <span class="hljs-number">200</span>:<br>    top = <span class="hljs-number">200</span><br>  <span class="hljs-keyword">else</span>:<br>    top = <span class="hljs-built_in">int</span>(top)<br>  rank_types = get_rank_types()<br>  rank_type =  <span class="hljs-built_in">next</span>((c[<span class="hljs-string">&#x27;value&#x27;</span>] <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> rank_types <span class="hljs-keyword">if</span> c[<span class="hljs-string">&#x27;value&#x27;</span>] == rank_type), <span class="hljs-literal">None</span>)<br><br>  <span class="hljs-keyword">if</span> rank_type:<br>    rank_type = re.sub(<span class="hljs-string">r&#x27;\-&#x27;</span>, <span class="hljs-string">&#x27;_&#x27;</span>, rank_type)<br>    get_data_query =  <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">                      SELECT</span><br><span class="hljs-string">                        a.id,</span><br><span class="hljs-string">                        npm_url npmUrl,</span><br><span class="hljs-string">                        github_url githubUrl,</span><br><span class="hljs-string">                        homepage_url homepageUrl,</span><br><span class="hljs-string">                        dltype dltype,</span><br><span class="hljs-string">                        downloads downloads,</span><br><span class="hljs-string">                        github_star githubStar,</span><br><span class="hljs-string">                        version,</span><br><span class="hljs-string">                        license,</span><br><span class="hljs-string">                        updated,</span><br><span class="hljs-string">                        created </span><br><span class="hljs-string">                      FROM</span><br><span class="hljs-string">                        ( SELECT id, dltype, downloads FROM pkgdownload WHERE dltype = ? ORDER BY downloads DESC LIMIT 0, ? ) a,</span><br><span class="hljs-string">                        pkgbase b</span><br><span class="hljs-string">                      WHERE</span><br><span class="hljs-string">                        a.id = b.id </span><br><span class="hljs-string">                      &#x27;&#x27;&#x27;</span><br>    records = sql_obj.get(get_data_query, (rank_type, top))<br><br>    <span class="hljs-keyword">for</span> index, record <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(records):<br>      records[index][<span class="hljs-string">&#x27;rank&#x27;</span>] = index + <span class="hljs-number">1</span><br>    <br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-string">&#x27;code&#x27;</span>: <span class="hljs-number">200</span>,<br>      <span class="hljs-string">&#x27;data&#x27;</span>: records,<br>      <span class="hljs-string">&#x27;success&#x27;</span>: <span class="hljs-literal">True</span><br>    &#125;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/35559153/226156582-af006bf7-d0df-454e-bce9-8cafdc6052be.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h1 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h1><p>如果你看了上面开启服务的的代码，你可能会发现获取排行数据的接口其实还有一个top参数，最大是200条，但是由于图表不方便展示这么多的数据，如果你想自己看一下前200都有哪些包，可以复制接口改一下，如 <a target="_blank" rel="noopener" href="https://www.npmrank.net/api/ranking/packages/last-day?top=200">https://www.npmrank.net/api/ranking/packages/last-day?top=200</a> ，如果你想查看超过200的排行，可以打开database.db的pkgdownload表查看</p>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>以上就是获取npm排行的整个流程了，如果感觉有意思的话欢迎点个赞或者star，后端仓库地址 <a target="_blank" rel="noopener" href="https://github.com/XueMeijing/npmrank">npmrank</a> ，在线体验网页链接 <a target="_blank" rel="noopener" href="https://www.npmrank.net/">https://www.npmrank.net/</a> ，</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%89%E8%B6%A3/" class="category-chain-item">有趣</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！</div>
+      <div>https://xuemeijing.github.io/2023/03/18/耗时一周，我统计出来了npm下载量前30的仓库，第一竟是它！/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xue Meijing</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/19/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/12/%E5%88%9B%E5%BB%BApython%E7%89%88%E6%9C%AC%E7%9A%84chatGPT%E9%92%89%E9%92%89%E6%9C%BA%E5%99%A8%E4%BA%BA/" title="创建python版本的chatGPT钉钉机器人">
+                        <span class="hidden-mobile">创建python版本的chatGPT钉钉机器人</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
