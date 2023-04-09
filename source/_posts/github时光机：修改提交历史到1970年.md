@@ -8,6 +8,7 @@ categories:
 在我还没有毕业的时候，我就听说过这样一个关于程序员的段子，某公司想招一个30岁以下，拥有20年工作经验的人。从现在起这不是段子了，只需简单几步，你可以修改你的github提交记录到1970年，成为一个20岁就拥有50年开发经验的老鸟。
 
 ## 效果展示
+**注意：以下截图全部为 github 链接，不使用 VPN 大概率出现图片加载失败的问题**
 
 可以打开 https://github.com/XueMeijing 在线体验 (PC端)
 
@@ -56,22 +57,28 @@ categories:
 
 ## 原理
 
-git 的每次提交有两个时间，分别为 AuthorDate 和 CommitDate ，在一些情况下他们是不一致的，比如使用 git cherry-pick 或者 git commit --amend 后, 再使用 git log --pretty=fuller 可以查看每次提交 AuthorDate 和 CommitDate 的区别。
+git 的每次提交有两个时间，分别为 AuthorDate 和 CommitDate ，在一些情况下他们是不一致的，比如使用 git cherry-pick 、 git commit --amend 或者 git commit --date 1970-01-01T08:00:00 后, 再使用 git log --pretty=fuller 可以查看每次提交 AuthorDate 和 CommitDate 的区别。
 
 ![image](https://user-images.githubusercontent.com/35559153/230784864-b6db0d2d-74f3-43ee-8275-725a2ce7d16b.png)
 
-你可以每次提交手动设置提交时间，如
+你也可以每次提交手动设置提交时间 ( --date 修改的是 AuthorDate )，如
 ```bash
 git commit -m 'add something' --date 1970-01-01T08:00:00
 ```
+
+得到如下结果，因为时区的原因，设置的时间是 1970 ，但是显示的是 1969 年
+![image](https://user-images.githubusercontent.com/35559153/230786020-e851c6be-e243-4eff-8eb6-288bd2d6cdce.png)
+![image](https://user-images.githubusercontent.com/35559153/230786452-a2591574-91fa-4012-8153-fe349af376cc.png)
+
+
+对于 github 来说，个人资料页的时间轴使用的是 AuthorDate ，仓库内使用的是 CommitDate ，这也是为什么能把 github 提交历史修改到 1970 年的原因，更多信息可以查看 github [官方文档](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/troubleshooting-commits-on-your-timeline)
+
 通过修改提交时间还可以进行其他有趣的玩法，比如下面两个
 ### 生成随机贡献 https://github.com/Shpota/github-activity-generator
 ![image](https://user-images.githubusercontent.com/35559153/230758005-29ee8376-ea3c-4d75-b73b-ec419ab3946a.png)
 
 ### 自己设置未来炫酷的贡献 https://github.com/empdo/art
 ![image](https://user-images.githubusercontent.com/35559153/230758057-c0d8e862-1bca-4503-bee3-61f63fe69776.png)
-
-
 
 ## 结束
 
