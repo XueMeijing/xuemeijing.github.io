@@ -41,7 +41,7 @@ OK，这样获取某一个仓库的接口就完成了，通过这个接口我们
 
 # 获取19年的排行
 
-我在网上搜了一下npm downlaod rank，发现只有 [anvaka](https://gist.github.com/anvaka/8e8fa57c7ee1350e3491) 19年做的统计符合想要的结果，他下载了npm全部的包并做了各种维度的分析，这个md是他统计的 top 1000依赖的包，不过被依赖的越多下载量越大，误差应该不会很大
+我在网上搜了一下npm download rank，发现只有 [anvaka](https://gist.github.com/anvaka/8e8fa57c7ee1350e3491) 19年做的统计符合想要的结果，他下载了npm全部的包并做了各种维度的分析，这个md是他统计的 top 1000依赖的包，不过被依赖的越多下载量越大，误差应该不会很大
 ![image](https://user-images.githubusercontent.com/35559153/226099718-5328c7de-d60e-4b83-ba57-348106bc99e0.png)
 1. 保存文件到本地 SOURCE_FILE
 2. 获取包名和仓库地址并存到sqlite数据库
@@ -283,4 +283,4 @@ async def get_packages(rank_type):
 
 # 结束
 
-以上就是获取npm排行的整个流程了，如果感觉有意思的话欢迎点个赞或者star，后端仓库地址 [npmrank](https://github.com/XueMeijing/npmrank) ，在线体验网页链接 https://www.npmrank.net/ ，
+以上就是获取npm排行的整个流程了，如果感觉有意思的话欢迎点个赞或者star，后端仓库地址 [npmrank](https://github.com/XueMeijing/npmrank) ，在线体验网页链接 https://www.npmrank.net/
