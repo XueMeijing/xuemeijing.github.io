@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xue Meijing">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="昨天一个后端朋友给我发了一张截图，问我这个2023年河南省大学生国家安全知识竞赛网页f12内DOM节点显示韩文，但是页面显示是中文，复制出来的结果是韩文，问我怎么回事。我也是第一次见这种情况，便研究了起来。本文主要记录我调试和发现答案的流程，涉及两部分，一个是该网页字体解密，一个是JSON数据AES解密 刚写完这篇文章，刷新就打不开这个网页了，发现竞赛学习时间过了🥲 网页字体解密注意：以下截图均">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2023年河南省大学生国家安全知识竞赛网页技术解密">
+<meta property="og:url" content="https://xuemeijing.github.io/2023/05/17/%E6%B2%B3%E5%8D%97%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%9B%BD%E5%AE%B6%E5%AE%89%E5%85%A8%E7%9F%A5%E8%AF%86%E7%AB%9E%E8%B5%9B%E7%BD%91%E9%A1%B5%E8%A7%A3%E5%AF%86/index.html">
+<meta property="og:site_name" content="南风">
+<meta property="og:description" content="昨天一个后端朋友给我发了一张截图，问我这个2023年河南省大学生国家安全知识竞赛网页f12内DOM节点显示韩文，但是页面显示是中文，复制出来的结果是韩文，问我怎么回事。我也是第一次见这种情况，便研究了起来。本文主要记录我调试和发现答案的流程，涉及两部分，一个是该网页字体解密，一个是JSON数据AES解密 刚写完这篇文章，刷新就打不开这个网页了，发现竞赛学习时间过了🥲 网页字体解密注意：以下截图均">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/15cef2a3-607c-46d1-b121-cd81522cc36b">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/b977cedc-77aa-4ac2-88a3-a2559f670d46">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/06594a36-c206-43e7-9a6c-0181eac5a31c">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/f7f31764-7173-4b49-a20a-3aad1f8077c8">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/51659aee-f59d-4d0f-ad0a-e5047460432d">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/62b3ef20-8838-4228-a4aa-3ccae7af8c72">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/747cc3db-a27f-40f3-873e-8e777b95df66">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/d471864a-d53f-4052-ae19-2897f9bcd6bb">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/eeddd7e1-6d6f-4f4d-aaf4-a9a6bee733f7">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/7e795ae6-fb06-415c-bfe5-2eacc5117642">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/6f04b6d7-f7cf-466d-9eb6-125b1feaa2ab">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/4c23698e-da90-4e69-abc8-1eb1b1351c88">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/01a7fce6-d1a0-46c1-a4f8-518ed9c5bcbc">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/41319712-5058-456f-a54a-095c55be2e4c">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/f75438b8-8e9c-4a8a-a321-d376ab2f68f0">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/970c662f-fbb8-4882-b05e-babb6140a4f6">
+<meta property="og:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/3d8c92c6-07ca-46e0-82b0-d1d2fcf0fccb">
+<meta property="article:published_time" content="2023-05-17T16:19:03.000Z">
+<meta property="article:modified_time" content="2023-05-18T01:40:18.108Z">
+<meta property="article:author" content="Xue Meijing">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/15cef2a3-607c-46d1-b121-cd81522cc36b">
+  
+  
+  
+  <title>2023年河南省大学生国家安全知识竞赛网页技术解密 - 南风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xuemeijing.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>南风</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2023年河南省大学生国家安全知识竞赛网页技术解密"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-17 16:19" pubdate>
+          2023年5月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">2023年河南省大学生国家安全知识竞赛网页技术解密</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>昨天一个后端朋友给我发了一张截图，问我这个<a target="_blank" rel="noopener" href="https://2023gjaqzsjs.haedu.cn/gajs/#/questionBank">2023年河南省大学生国家安全知识竞赛网页</a>f12内DOM节点显示韩文，但是页面显示是中文，复制出来的结果是韩文，问我怎么回事。我也是第一次见这种情况，便研究了起来。本文主要记录我调试和发现答案的流程，涉及两部分，一个是该网页字体解密，一个是JSON数据AES解密</p>
+<p><strong>刚写完这篇文章，刷新就打不开这个网页了，发现竞赛学习时间过了🥲</strong></p>
+<h1 id="网页字体解密"><a href="#网页字体解密" class="headerlink" title="网页字体解密"></a>网页字体解密</h1><p><strong>注意：以下截图均为github链接，不用vpn很大可能打不开</strong></p>
+<h2 id="定位原因"><a href="#定位原因" class="headerlink" title="定位原因"></a>定位原因</h2><p>通过调试发现，这类字体都有.secret类名，该类名指定使用一个名叫ddjdt的font-family，去掉该font-family属性页面正常显示为韩文，因此确定是字体原因</p>
+<p><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/15cef2a3-607c-46d1-b121-cd81522cc36b" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="寻找资料-了解原理"><a href="#寻找资料-了解原理" class="headerlink" title="寻找资料 了解原理"></a>寻找资料 了解原理</h2><p>在网络上搜索字体加密有很多文档，大部分都是拿猫眼的网页当做例子，但是由于每个网站的加密方式不一样，所以那些教程不一定适用于该网页，但是整体的流程大概明白了。</p>
+<p>简单来说字体加密主要是为了反爬虫和防复制，比如猫眼这些网站就是为了防止别人爬数据，对于这个知识竞赛网页主要是为了防止复制搜答案。</p>
+<p>对于汉字 <strong>我</strong> 来说，他可以有宋体、黑体、微软雅黑等不同的字形展示，但是他们对应的Unicode编码是同一个，同理也可以创造一个新的字体库叫animal，把 <strong>我</strong> 对应的字形描绘成老虎，这样浏览器在碰到 <strong>我</strong> 的Unicode时，就会把它渲染成老虎的样式。字体库内部使用TTGlyph来存储字形轮廓信息，它和SVG一样都是矢量图形格式。</p>
+<p>所以该网页DOM内部是韩文，这些韩文的Unicode编码对应的字形实际上是微软雅黑或者其他字体库的汉字字形TTGlyph，导致页面渲染出来是汉字。</p>
+<h2 id="字体库xml分析验证"><a href="#字体库xml分析验证" class="headerlink" title="字体库xml分析验证"></a>字体库xml分析验证</h2><p>打开css发现该字体使用的是 <a target="_blank" rel="noopener" href="https://2023gjaqzsjs.haedu.cn/fonts/wryh2.ttf">https://2023gjaqzsjs.haedu.cn/fonts/wryh2.ttf</a> 这个字体文件，下载文件，然后用python把ttf转换成xml文件看到字体库内部结构，代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fontTools.ttLib <span class="hljs-keyword">import</span> TTFont, TTCollection<br><br><span class="hljs-comment"># 某些字体库是集合，TTFont会报错，需要用TTCollection</span><br>font = TTFont(<span class="hljs-string">&quot;wryh2.ttf&quot;</span>)<br>font.saveXML(<span class="hljs-string">&quot;wryh2.xml&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>解析后的xml文件首先看到的是GlyphOrder，内部有很多GlyphID</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">GlyphOrder</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">GlyphID</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00000&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">GlyphID</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00001&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">GlyphID</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00002&quot;</span>/&gt;</span><br>  ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">GlyphOrder</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>搜索 glyph00002，可以看到对应一个Unicode编码 0xb460</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">cmap_format_4</span> <span class="hljs-attr">platformID</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">platEncID</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><br>  ...<br>  <span class="hljs-tag">&lt;<span class="hljs-name">map</span> <span class="hljs-attr">code</span>=<span class="hljs-string">&quot;0xb45c&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00157&quot;</span>/&gt;</span><span class="hljs-comment">&lt;!-- HANGUL SYLLABLE DULS --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">map</span> <span class="hljs-attr">code</span>=<span class="hljs-string">&quot;0xb460&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00002&quot;</span>/&gt;</span><span class="hljs-comment">&lt;!-- HANGUL SYLLABLE DUM --&gt;</span><br>  ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">cmap_format_4</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>转换0xb460打印出来是韩文，也证实了上面的说法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCharCode</span>(<span class="hljs-string">&#x27;0xb460&#x27;</span>) <span class="hljs-comment">// &#x27;둠&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>同时与glyph00002相关的还有这个TTGlyph，也就是它的字形文件了</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">TTGlyph</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;glyph00002&quot;</span> <span class="hljs-attr">xMin</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">yMin</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">xMax</span>=<span class="hljs-string">&quot;1077&quot;</span> <span class="hljs-attr">yMax</span>=<span class="hljs-string">&quot;1582&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">contour</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;1077&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;189&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;189&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;169&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;536&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;169&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;536&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;1345&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;180&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;1242&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;180&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;1422&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;731&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;1582&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;731&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;169&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">pt</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;1077&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;169&quot;</span> <span class="hljs-attr">on</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">contour</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">instructions</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">TTGlyph</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="操作、预览字体库"><a href="#操作、预览字体库" class="headerlink" title="操作、预览字体库"></a>操作、预览字体库</h2><p>在查找的文档中，很多人说可以用FontCreator加载字体库，但是它只适用于windows，并且有试用期，故放弃。问了chatGPT后说可以用BirdFont和FontDrop，</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://birdfont.org/">BirdFont</a>：免费，有mac客户端，可以根据Unicode搜索</li>
+<li><a target="_blank" rel="noopener" href="https://fontdrop.info/">FontDrop</a>：免费，网页端，没有搜索功能</li>
+<li><a target="_blank" rel="noopener" href="https://kekee000.github.io/fonteditor/">百度字体编辑器</a>：免费，网页端，可以根据Unicode搜索(吐个槽，百度好像把这个产品下架了，这个链接还是github的)</li>
+</ul>
+<p>我使用的是FontDrop，很方便，把字体文件拖进来就能解析，可以看到字体名称和字体作者等信息<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/b977cedc-77aa-4ac2-88a3-a2559f670d46" srcset="/img/loading.gif" lazyload alt="image"><br>下面是字体展示，鼠标滑过会展示该字形的Unicode<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/06594a36-c206-43e7-9a6c-0181eac5a31c" srcset="/img/loading.gif" lazyload alt="image"><br>分析DOM结构，获取全部字形的Unicode<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/f7f31764-7173-4b49-a20a-3aad1f8077c8" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript">[...<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#glyph-list-end&#x27;</span>).<span class="hljs-property">children</span>].<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> regex = <span class="hljs-regexp">/Unicode:\s+(\w+)/</span>;<br>  <span class="hljs-keyword">const</span> match = item.<span class="hljs-property">children</span>[<span class="hljs-number">0</span>].<span class="hljs-property">textContent</span>.<span class="hljs-title function_">match</span>(regex);<br>  <br>  <span class="hljs-keyword">if</span> (match) &#123;<br>    <span class="hljs-keyword">const</span> unicode = match[<span class="hljs-number">1</span>];<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(unicode); <span class="hljs-comment">// 输出: BFEE</span><br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;未找到匹配的内容&#x27;</span>);<br>  &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+<p>执行结果如下<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/51659aee-f59d-4d0f-ad0a-e5047460432d" srcset="/img/loading.gif" lazyload alt="image"><br>emmmm。竟然还有未找到匹配的内容，调试后发现该字形的Unicode是鼠标滑过字形后动态插入到DOM的，鼠标没有滑过的字形就是未找到<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/62b3ef20-8838-4228-a4aa-3ccae7af8c72" srcset="/img/loading.gif" lazyload alt="image"><br>简单，给全部字形节点加mouseover事件，手动触发，再获取全部Unicode就正常了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript">[...<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#glyph-list-end&#x27;</span>).<span class="hljs-property">children</span>].<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> &#123;<br>  <span class="hljs-keyword">var</span> event = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MouseEvent</span>(<span class="hljs-string">&#x27;mouseover&#x27;</span>);<br>  item.<span class="hljs-title function_">dispatchEvent</span>(event);<br>&#125;)<br></code></pre></td></tr></table></figure>
+<p><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/747cc3db-a27f-40f3-873e-8e777b95df66" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="获取Unicode和字形的映射，创建密码表"><a href="#获取Unicode和字形的映射，创建密码表" class="headerlink" title="获取Unicode和字形的映射，创建密码表"></a>获取Unicode和字形的映射，创建密码表</h2><p>没办法，这里只能手动建立映射了，或者有OCR接口的话可以优化一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> unicodeArr = [<span class="hljs-string">&quot;none&quot;</span>,<span class="hljs-string">&quot;BFEE&quot;</span>,<span class="hljs-string">&quot;B460&quot;</span>,<span class="hljs-string">&quot;BA67&quot;</span>...]<br><span class="hljs-keyword">var</span> decryptArr = [<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;0&quot;</span>,<span class="hljs-string">&quot;1&quot;</span>,<span class="hljs-string">&quot;2&quot;</span>...]<br><span class="hljs-keyword">var</span> unicodeMap = &#123;&#125;<br>unicodeArr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> &#123;<br>  unicodeMap[item] = decryptArr[index]<br>&#125;)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(unicodeMap)<br></code></pre></td></tr></table></figure>
+<p>映射结果如下<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/d471864a-d53f-4052-ae19-2897f9bcd6bb" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>复制一句密文来测试下效果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> encryptStr = <span class="hljs-string">&#x27;욜춼헵풱쐋뒈킧젋쉍쯃总쉫욜춼헵풱칌，以(      )为宗旨。&#x27;</span><br><span class="hljs-keyword">var</span> decryptSte = encryptStr.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&#x27;</span>)<br>  .<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">HEX</span> = item.<span class="hljs-title function_">charCodeAt</span>().<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>).<span class="hljs-title function_">toUpperCase</span>()<br>    <span class="hljs-keyword">return</span> unicodeMap[<span class="hljs-variable constant_">HEX</span>] || item<br>  &#125;)<br>  .<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;&#x27;</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;encryptStr&#x27;</span>, encryptStr)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;decryptSte&#x27;</span>, decryptSte)<br></code></pre></td></tr></table></figure>
+<p>解密效果如下<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/eeddd7e1-6d6f-4f4d-aaf4-a9a6bee733f7" srcset="/img/loading.gif" lazyload alt="image"><br>看起来解密效果还可以，一部分字体没有解密出来是因为字体文件的问题，多个Unicode对应同一个字体文件TTGlyph，用上面说的百度字体编辑器可以看到 <strong>国</strong> 这个字形文件有两个Unicode，把这些特殊Unicode手动加到之前的密码表就好了<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/7e795ae6-fb06-415c-bfe5-2eacc5117642" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h1 id="JSON数据解密"><a href="#JSON数据解密" class="headerlink" title="JSON数据解密"></a>JSON数据解密</h1><h2 id="确认接口"><a href="#确认接口" class="headerlink" title="确认接口"></a>确认接口</h2><p>这些加密字体很明显是后端接口传过来的，但是这个分页接口返回的竟然是加密后的字符串，真有你的<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/6f04b6d7-f7cf-466d-9eb6-125b1feaa2ab" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="定位代码"><a href="#定位代码" class="headerlink" title="定位代码"></a>定位代码</h2><p>在返回的js文件内搜索这个接口地址 2023gjaqzsjs.haedu.cn 和 &#x2F;json&#x2F;，找到相关代码，看到返回的加密字符串被$decrypt方法解密<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/4c23698e-da90-4e69-abc8-1eb1b1351c88" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>搜索$decrypt方法发现是用AES解密<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/01a7fce6-d1a0-46c1-a4f8-518ed9c5bcbc" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>通过其他的一些变量名我猜用的很可能是<strong>crypto-js</strong>这个库，但是看crypto-js源码的decrypt函数第三个参数是一个配置对象啊，这里怎么是个字符串，难道是用的其他解密库？我在这里卡了半天，打断点才发现是作者创建了一个AES对象，把crypto-js的decrypt又封装了一下</p>
+<p>这里的o方法就是把16进制转为10进制index，然后获取t[index], 比如r[“AES”][o(“0xa”)]实际就是r[“AES”][“decrypt”]</p>
+<p><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/41319712-5058-456f-a54a-095c55be2e4c" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>引入crypto-js的cdn文件，然后复制相关解密变量到本地测试<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/f75438b8-8e9c-4a8a-a321-d376ab2f68f0" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>结果如下<br><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/970c662f-fbb8-4882-b05e-babb6140a4f6" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p><img src="https://github.com/XueMeijing/dingtalk-chatgpt-node/assets/35559153/3d8c92c6-07ca-46e0-82b0-d1d2fcf0fccb" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>和知识竞赛题目内的加密字体一样，JSON解密完成</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>学习了字体加密解密的一些知识，加深了对字体文件的理解。而且在我以往的印象里反爬虫就是ip限制，请求频率限制，没想到还有JSON加密和字体加密。但是目前还有个问题：后端怎么生成的加密字体文件和字体JSON，通过密码表还是加密规则，这个字体文件只加密了一部分常用字</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%89%E8%B6%A3/" class="category-chain-item">有趣</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2023年河南省大学生国家安全知识竞赛网页技术解密</div>
+      <div>https://xuemeijing.github.io/2023/05/17/河南大学生国家安全知识竞赛网页解密/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xue Meijing</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/09/github%E6%97%B6%E5%85%89%E6%9C%BA%EF%BC%9A%E4%BF%AE%E6%94%B9%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2%E5%88%B01970%E5%B9%B4/" title="github时光机：修改提交历史到1970年">
+                        <span class="hidden-mobile">github时光机：修改提交历史到1970年</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
