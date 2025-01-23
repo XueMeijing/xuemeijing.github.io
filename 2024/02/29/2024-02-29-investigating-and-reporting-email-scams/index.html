@@ -19,7 +19,7 @@
     <meta name="description" content="前几个月的某一天，在我想办法解决bug的时候qq邮箱突然发来了一条提示：通知：因您本人2023年还款行为超出预期，现为您更新本年个人专属消费额度，请前往确认(AD) ，我寻思我信用卡有什么新状况了，然后就点进去看了下，果不其然上当了，是一条骚扰信息，然后刚才解决bug的思路全断了  这时候我想起来，为什么这种类似的邮件标题名我见过好几次呢，为此我翻了下之前的收件箱，果不其然有五六条。你发广告可以接">
 <meta property="og:type" content="article">
 <meta property="og:title" content="面对骚扰诈骗邮件我做了什么，还能做什么？">
-<meta property="og:url" content="https://xuemeijing.github.io/2024/02/29/%E9%9D%A2%E5%AF%B9%E9%AA%9A%E6%89%B0%E8%AF%88%E9%AA%97%E9%82%AE%E4%BB%B6%E6%88%91%E4%BB%AC%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88/index.html">
+<meta property="og:url" content="https://xuemeijing.github.io/2024/02/29/2024-02-29-investigating-and-reporting-email-scams/index.html">
 <meta property="og:site_name" content="南风">
 <meta property="og:description" content="前几个月的某一天，在我想办法解决bug的时候qq邮箱突然发来了一条提示：通知：因您本人2023年还款行为超出预期，现为您更新本年个人专属消费额度，请前往确认(AD) ，我寻思我信用卡有什么新状况了，然后就点进去看了下，果不其然上当了，是一条骚扰信息，然后刚才解决bug的思路全断了  这时候我想起来，为什么这种类似的邮件标题名我见过好几次呢，为此我翻了下之前的收件箱，果不其然有五六条。你发广告可以接">
 <meta property="og:locale" content="zh_CN">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/38f485a2-9177-44ab-98b6-02f315fc665e">
 <meta property="og:image" content="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/c39d5750-5174-4684-8040-de9b02fe5b0c">
 <meta property="article:published_time" content="2024-02-29T11:19:03.000Z">
-<meta property="article:modified_time" content="2024-03-04T03:01:18.712Z">
+<meta property="article:modified_time" content="2025-01-23T09:23:54.882Z">
 <meta property="article:author" content="Xue Meijing">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/6078debe-4b92-4d38-98b5-552446eb1c3b">
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2k 字
         
       </span>
     
@@ -296,7 +296,7 @@
 <p><img src="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/f178057f-a500-4d98-b691-a09ae7ec9043" srcset="/img/loading.gif" lazyload alt="image"></p>
 <h2 id="收集证据"><a href="#收集证据" class="headerlink" title="收集证据"></a>收集证据</h2><p>首先骚扰邮件主要分为三个部分：发件人地址，邮件内容图片地址和跳转地址，这三块的内容都可能是不同的。作为程序员我们应该都清楚，知道域名可以通过whois查询域名的注册信息，有的注册信息可能只有域名注册商知道，只显示给你一串id，你拿到这串id向注册商请求才可能找到真实信息，也有直接显示本身的注册信息的。为此我查了下这几封邮件的所有相关地址和whois信息，详细结果可以直接点击这个语雀文档查看 <a target="_blank" rel="noopener" href="https://www.yuque.com/xuetengfei/kb/ggvd2bf2w66kklg4">https://www.yuque.com/xuetengfei/kb/ggvd2bf2w66kklg4</a></p>
 <p>就比如说2024-01-01这封骚扰邮件，新年第一天就收到骚扰邮件，真晦气<br><img src="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/e2d11275-2ecc-4355-beed-d786ea6595fd" srcset="/img/loading.gif" lazyload alt="image"></p>
-<h3 id="发件人"><a href="#发件人" class="headerlink" title="发件人"></a>发件人</h3><p>从图中可以看到发件人为<strong><a href="mailto:&#x73;&#x79;&#x73;&#x74;&#101;&#109;&#64;&#110;&#101;&#x77;&#x73;&#108;&#101;&#x74;&#x74;&#101;&#114;&#46;&#x63;&#111;&#x73;&#x65;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#110;">&#x73;&#x79;&#x73;&#x74;&#101;&#109;&#64;&#110;&#101;&#x77;&#x73;&#108;&#101;&#x74;&#x74;&#101;&#114;&#46;&#x63;&#111;&#x73;&#x65;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#110;</a></strong>，通过whois查询这个域名 <a target="_blank" rel="noopener" href="https://whois.chinaz.com/cosemail.cn">https://whois.chinaz.com/cosemail.cn</a> ，发现域名注册商是 <strong>广州稳流互动网络有限公司</strong></p>
+<h3 id="发件人"><a href="#发件人" class="headerlink" title="发件人"></a>发件人</h3><p>从图中可以看到发件人为<strong><a href="mailto:&#x73;&#121;&#115;&#116;&#x65;&#109;&#x40;&#x6e;&#x65;&#119;&#x73;&#108;&#x65;&#116;&#116;&#x65;&#x72;&#x2e;&#99;&#x6f;&#115;&#x65;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#x6e;">&#x73;&#121;&#115;&#116;&#x65;&#109;&#x40;&#x6e;&#x65;&#119;&#x73;&#108;&#x65;&#116;&#116;&#x65;&#x72;&#x2e;&#99;&#x6f;&#115;&#x65;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#x6e;</a></strong>，通过whois查询这个域名 <a target="_blank" rel="noopener" href="https://whois.chinaz.com/cosemail.cn">https://whois.chinaz.com/cosemail.cn</a> ，发现域名注册商是 <strong>广州稳流互动网络有限公司</strong></p>
 <p><img src="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/4ee8504c-5ddb-4019-8071-dfc5580f132e" srcset="/img/loading.gif" lazyload alt="image"></p>
 <h3 id="邮件图片地址"><a href="#邮件图片地址" class="headerlink" title="邮件图片地址"></a>邮件图片地址</h3><p>图片的地址是 zwank.com，whois查询出来是域名注册商的信息，但是没关系，我国有条特殊政策就是域名需要备案，通过icp备案查询 <a target="_blank" rel="noopener" href="https://icp.chinaz.com/zwwank.com">https://icp.chinaz.com/zwwank.com</a> ， 发现备案主办单位也是 <strong>广州稳流互动网络有限公司</strong> ，巧了么不是</p>
 <p><img src="https://github.com/XueMeijing/xuemeijing.github.io/assets/35559153/334a310c-4c4b-4617-8be3-fc9df4798bfc" srcset="/img/loading.gif" lazyload alt="image"></p>
@@ -361,7 +361,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>面对骚扰诈骗邮件我做了什么，还能做什么？</div>
-      <div>https://xuemeijing.github.io/2024/02/29/面对骚扰诈骗邮件我们能做什么/</div>
+      <div>https://xuemeijing.github.io/2024/02/29/2024-02-29-investigating-and-reporting-email-scams/</div>
     </div>
     <div class="license-meta">
       
@@ -405,11 +405,17 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2025/01/22/2025-01-22-spread-syntax-and-rest-parameters/" title="深入理解展开语法和剩余参数">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深入理解展开语法和剩余参数</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/05/17/%E6%B2%B3%E5%8D%97%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%9B%BD%E5%AE%B6%E5%AE%89%E5%85%A8%E7%9F%A5%E8%AF%86%E7%AB%9E%E8%B5%9B%E7%BD%91%E9%A1%B5%E8%A7%A3%E5%AF%86/" title="2023年河南省大学生国家安全知识竞赛网页技术解密">
+                      <a href="/2023/05/17/2023-05-17-decoding-font-encryption/" title="2023年河南省大学生国家安全知识竞赛网页技术解密">
                         <span class="hidden-mobile">2023年河南省大学生国家安全知识竞赛网页技术解密</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
